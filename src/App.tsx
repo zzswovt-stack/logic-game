@@ -4,7 +4,7 @@ import AdminPage from './pages/AdminPage';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/logic-game">
       <Routes>
         <Route path="/" element={<StudentPage />} />
         <Route path="/admin" element={<AdminPage />} />
