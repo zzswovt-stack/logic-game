@@ -1,21 +1,41 @@
-import { useState } from 'react';
-import { getAdminStats } from '../utils/storage';
+import { useState, useEffect } from 'react';
+import { getAdminStats } from '../utils/submissionService';
+import { isSupabaseAvailable } from '../utils/supabase';
+import type { AdminStats } from '../types';
 import StatsOverview from '../components/StatsOverview';
 import ErrorHeatMap from '../components/ErrorHeatMap';
+import CloudStatus from '../components/CloudStatus';
 import styles from './AdminPage.module.css';
 
 export default function AdminPage() {
-  const [stats, setStats] = useState(() => getAdminStats());
+  const [stats, setStats] = useState<AdminStats | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  function handleRefresh() {
-    setStats(getAdminStats());
+  async function loadStats() {
+    setLoading(true);
+    const s = await getAdminStats();
+    setStats(s);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    loadStats();
+  }, []);
+
+  if (loading) {
+    return <div className={styles.page}><p className={styles.empty}>加载中...</p></div>;
+  }
+
+  if (!stats) {
+    return <div className={styles.page}><p className={styles.empty}>暂无数据</p></div>;
   }
 
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <h1>教师统计看板</h1>
-        <button className={styles.refreshBtn} onClick={handleRefresh}>
+        <CloudStatus />
+        <button className={styles.refreshBtn} onClick={loadStats}>
           刷新数据
         </button>
       </header>
@@ -36,7 +56,9 @@ export default function AdminPage() {
       )}
 
       <p className={styles.note}>
-        数据来自浏览器本地存储。如需跨设备统计，请连接后端服务。
+        {isSupabaseAvailable()
+          ? '数据来自云端数据库。'
+          : '数据来自浏览器本地存储。如需跨设备统计，请配置 Supabase 后端。'}
       </p>
     </div>
   );

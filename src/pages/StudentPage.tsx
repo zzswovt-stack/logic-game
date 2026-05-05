@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from 'react';
 import type { Step } from '../types';
 import { STEPS, CORRECT_ORDER } from '../data/steps';
 import { shuffle } from '../utils/shuffle';
-import { addSubmission } from '../utils/storage';
+import { addSubmission } from '../utils/submissionService';
 import CountdownTimer from '../components/CountdownTimer';
 import StepSorter from '../components/StepSorter';
 import ResultPanel from '../components/ResultPanel';
@@ -27,7 +27,7 @@ export default function StudentPage() {
   const submittedRef = useRef(false);
 
   const handleSubmit = useCallback(
-    (auto = false) => {
+    async (auto = false) => {
       if (submittedRef.current) return;
       submittedRef.current = true;
       setRunning(false);
@@ -36,7 +36,7 @@ export default function StudentPage() {
       const isCorrect = studentIds.every((id, i) => id === CORRECT_ORDER[i]);
       const timeSpent = Math.round((Date.now() - startTimeRef.current) / 1000);
 
-      addSubmission({
+      await addSubmission({
         id: generateId(),
         timestamp: Date.now(),
         studentOrder: studentIds,
