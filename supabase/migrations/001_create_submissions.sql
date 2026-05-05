@@ -38,3 +38,14 @@ BEGIN
       FOR SELECT TO anon USING (true);
   END IF;
 END $$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE policyname = 'anyone_can_delete' AND tablename = 'submissions'
+  ) THEN
+    CREATE POLICY "anyone_can_delete" ON submissions
+      FOR DELETE TO anon USING (true);
+  END IF;
+END $$;

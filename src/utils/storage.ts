@@ -18,6 +18,10 @@ export function addSubmission(submission: Submission): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
 }
 
+export function clearSubmissions(): void {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
 export function getAdminStats(): AdminStats {
   const submissions = getSubmissions();
   const totalSubmissions = submissions.length;
