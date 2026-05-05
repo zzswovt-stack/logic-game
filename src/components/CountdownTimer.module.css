@@ -1,0 +1,50 @@
+.timer {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: center;
+  color: #fff;
+  transition: background 0.3s;
+}
+
+.timer.urgent {
+  background: #c62828;
+  animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.03); }
+}
+
+.label {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.digits {
+  font-size: 36px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+}
+
+.barTrack {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: #4caf50;
+  border-radius: 2px;
+  transition: width 1s linear;
+}
+
+.urgent .barFill {
+  background: #ffeb3b;
+}
