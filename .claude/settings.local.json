@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git reset *)",
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(cp -r /tmp/logic-game-dist-deploy/* .)",
+      "Bash(rm -rf /tmp/logic-game-dist-deploy)"
+    ]
+  }
+}
